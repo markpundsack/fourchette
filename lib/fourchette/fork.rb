@@ -40,8 +40,10 @@ class Fourchette::Fork
   end
 
   def delete
-    @heroku.delete(fork_name)
-    @github.comment_pr(pr_number, "Test app deleted!")
+    if @heroku.app_exists?(fork_name)
+      @heroku.delete(fork_name)
+      @github.comment_pr(pr_number, "Test app deleted!")
+    end
   end
 
   def fork_name
